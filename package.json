@@ -1,11 +1,11 @@
 {
   "name": "tag-formatter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "test": "node test/test.js",
-    "build" :"webpack"
+    "build": "webpack"
   },
   "author": "807081817@qq.com",
   "license": "ISC",
