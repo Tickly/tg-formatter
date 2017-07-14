@@ -9,7 +9,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, './dist'),
         filename: '[name].js',
-        library: 'formatter',
+        library: 'tag-formatter',
         libraryTarget: 'commonjs2',
     },
     externals: {
