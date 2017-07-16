@@ -2,7 +2,6 @@ import moment from 'moment'
 import accounting from 'accounting'
 
 
-
 export default {
 
     // 重点函数，别的地方只需调用这一个函数即可
@@ -51,9 +50,13 @@ export default {
         return moment(value).format(format)
     },
 
-    asCurrency(value) {
+    asDateTime(value) {
+        return this.asDate(value) + ' ' + this.asTime(value)
+    },
+
+    asCurrency(value, symbol = '￥ ', precision, thousand, decimal, format) {
         if (!value) return;
-        return accounting.formatMoney(value, '￥ ')
+        return accounting.formatMoney(value, symbol, precision, thousand, decimal, format)
     },
 
     /**
@@ -61,8 +64,8 @@ export default {
      * @param {Number} value 
      * @param {Number} decimals 小数点后的个数，默认2
      */
-    asDecimal(value, decimals = 2) {
-        return accounting.formatNumber(value, decimals);
+    asDecimal(value, decimals = 2, thousand = ',') {
+        return accounting.formatNumber(value, decimals, thousand);
     },
 
 
