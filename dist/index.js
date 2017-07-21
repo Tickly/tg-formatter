@@ -66,43 +66,50 @@ module.exports =
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_accounting__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_accounting___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_accounting__);
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
+var _moment = __webpack_require__(1);
 
+var _moment2 = _interopRequireDefault(_moment);
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+var _accounting = __webpack_require__(2);
+
+var _accounting2 = _interopRequireDefault(_accounting);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
 
     // 重点函数，别的地方只需调用这一个函数即可
     // formatter.format(value,format)
     // 此处format为引用传递，不能直接修改他
-    format(value, format) {
+    format: function format(value, _format) {
 
-        let fn, params;
+        var fn = void 0,
+            params = void 0;
 
-        if (Array.isArray(format)) {
-            if (format.length === 0) {
-                throw new Error('format 数组必须包含一个元素')
+        if (Array.isArray(_format)) {
+            if (_format.length === 0) {
+                throw new Error('format 数组必须包含一个元素');
             }
             // console.log(JSON.stringify(format));
-            params = format.slice();
+            params = _format.slice();
             fn = params[0];
             params[0] = value;
         } else {
-            fn = format;
+            fn = _format;
             params = [value];
         }
 
-        fn = fn.split('').map((c, i) => {
-            if (i === 0) return c.toUpperCase()
+        fn = fn.split('').map(function (c, i) {
+            if (i === 0) return c.toUpperCase();
             return c;
         }).join('');
 
@@ -114,39 +121,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         return this[fn].apply(null, params);
     },
-
-    asText(value) {
-        return value
+    asText: function asText(value) {
+        return value;
     },
+    asDate: function asDate(value) {
+        var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Y-MM-DD';
 
-    asDate(value, format = 'Y-MM-DD') {
-        return __WEBPACK_IMPORTED_MODULE_0_moment___default()(value).format(format)
+        return (0, _moment2.default)(value).format(format);
     },
+    asTime: function asTime(value) {
+        var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'HH:mm:ss';
 
-    asTime(value, format = 'HH:mm:ss') {
-        return __WEBPACK_IMPORTED_MODULE_0_moment___default()(value).format(format)
+        return (0, _moment2.default)(value).format(format);
     },
+    asDateTime: function asDateTime(value) {
+        return this.asDate(value) + ' ' + this.asTime(value);
+    },
+    asCurrency: function asCurrency(value) {
+        var symbol = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '￥ ';
+        var precision = arguments[2];
+        var thousand = arguments[3];
+        var decimal = arguments[4];
+        var format = arguments[5];
 
-    asCurrency(value) {
         if (!value) return;
-        return __WEBPACK_IMPORTED_MODULE_1_accounting___default.a.formatMoney(value, '￥ ')
+        return _accounting2.default.formatMoney(value, symbol, precision, thousand, decimal, format);
     },
+
 
     /**
      * 
      * @param {Number} value 
      * @param {Number} decimals 小数点后的个数，默认2
      */
-    asDecimal(value, decimals = 2) {
-        return __WEBPACK_IMPORTED_MODULE_1_accounting___default.a.formatNumber(value, decimals);
+    asDecimal: function asDecimal(value) {
+        var decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
+        var thousand = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ',';
+
+        return _accounting2.default.formatNumber(value, decimals, thousand);
     },
+    asPercent: function asPercent(value) {
+        var decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-
-    asPercent(value, decimals = 0) {
         value *= 100;
-        return value.toFixed(decimals) + '%'
-    },
-});
+        return value.toFixed(decimals) + '%';
+    }
+};
 
 /***/ }),
 /* 1 */

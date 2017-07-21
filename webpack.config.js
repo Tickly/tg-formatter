@@ -12,6 +12,13 @@ module.exports = {
         library: 'tag-formatter',
         libraryTarget: 'commonjs2',
     },
+    module: {
+        rules: [{
+            test: /\.js$/,
+            use: 'babel-loader',
+            exclude:/node_modules/,
+        }]
+    },
     externals: {
         moment: {
             root: 'moment',
