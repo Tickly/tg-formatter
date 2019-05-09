@@ -37,7 +37,7 @@ export default {
   },
 
   asText (value) {
-    return value.toString()
+    return value
   },
 
   asDate (value, format = 'Y-MM-DD') {

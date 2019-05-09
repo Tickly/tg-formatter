@@ -123,7 +123,7 @@ exports.default = {
     return this[fn].apply(null, params);
   },
   asText: function asText(value) {
-    return value.toString();
+    return value;
   },
   asDate: function asDate(value) {
     var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Y-MM-DD';
