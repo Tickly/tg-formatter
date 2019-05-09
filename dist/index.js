@@ -72,7 +72,7 @@ module.exports =
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _moment = __webpack_require__(1);
@@ -86,86 +86,87 @@ var _accounting2 = _interopRequireDefault(_accounting);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-
-    // 重点函数，别的地方只需调用这一个函数即可
-    // formatter.format(value,format)
-    // 此处format为引用传递，不能直接修改他
-    format: function format(value, _format) {
-
-        var fn = void 0,
-            params = void 0;
-
-        if (Array.isArray(_format)) {
-            if (_format.length === 0) {
-                throw new Error('format 数组必须包含一个元素');
-            }
-            // console.log(JSON.stringify(format));
-            params = _format.slice();
-            fn = params[0];
-            params[0] = value;
-        } else {
-            fn = _format;
-            params = [value];
-        }
-
-        fn = fn.split('').map(function (c, i) {
-            if (i === 0) return c.toUpperCase();
-            return c;
-        }).join('');
-
-        fn = 'as' + fn;
-
-        if (!this[fn]) {
-            // console.log(fn, value, format)
-        }
-
-        return this[fn].apply(null, params);
-    },
-    asText: function asText(value) {
-        return value;
-    },
-    asDate: function asDate(value) {
-        var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Y-MM-DD';
-
-        return (0, _moment2.default)(value).format(format);
-    },
-    asTime: function asTime(value) {
-        var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'HH:mm:ss';
-
-        return (0, _moment2.default)(value).format(format);
-    },
-    asDateTime: function asDateTime(value) {
-        return this.asDate(value) + ' ' + this.asTime(value);
-    },
-    asCurrency: function asCurrency(value) {
-        var symbol = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '￥ ';
-        var precision = arguments[2];
-        var thousand = arguments[3];
-        var decimal = arguments[4];
-        var format = arguments[5];
-
-        if (!value) return;
-        return _accounting2.default.formatMoney(value, symbol, precision, thousand, decimal, format);
-    },
+  // 重点函数，别的地方只需调用这一个函数即可
+  // formatter.format(value,format)
+  // 此处format为引用传递，不能直接修改他
+  format: function format(value) {
+    var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text';
 
 
-    /**
-     * 
-     * @param {Number} value 
-     * @param {Number} decimals 小数点后的个数，默认2
-     */
-    asDecimal: function asDecimal(value) {
-        var decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
-        var thousand = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ',';
+    var fn = void 0,
+        params = void 0;
 
-        return _accounting2.default.formatNumber(value, decimals, thousand);
-    },
-    asPercent: function asPercent(value) {
-        var decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-        value *= 100;
-        return value.toFixed(decimals) + '%';
+    if (Array.isArray(format)) {
+      if (format.length === 0) {
+        throw new Error('format 数组必须包含一个元素');
+      }
+      // console.log(JSON.stringify(format));
+      params = format.slice();
+      fn = params[0];
+      params[0] = value;
+    } else {
+      fn = format;
+      params = [value];
     }
+
+    fn = fn.split('').map(function (c, i) {
+      if (i === 0) return c.toUpperCase();
+      return c;
+    }).join('');
+
+    fn = 'as' + fn;
+
+    if (!this[fn]) {
+      // console.log(fn, value, format)
+    }
+
+    return this[fn].apply(null, params);
+  },
+  asText: function asText(value) {
+    return value.toString();
+  },
+  asDate: function asDate(value) {
+    var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Y-MM-DD';
+
+    return (0, _moment2.default)(value).format(format);
+  },
+  asTime: function asTime(value) {
+    var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'HH:mm:ss';
+
+    return (0, _moment2.default)(value).format(format);
+  },
+  asDateTime: function asDateTime(value) {
+    return this.asDate(value) + ' ' + this.asTime(value);
+  },
+  asCurrency: function asCurrency(value) {
+    var symbol = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '￥ ';
+    var precision = arguments[2];
+    var thousand = arguments[3];
+    var decimal = arguments[4];
+    var format = arguments[5];
+
+    if (!value) return;
+    return _accounting2.default.formatMoney(value, symbol, precision, thousand, decimal, format);
+  },
+
+
+  /**
+   * 
+   * @param {Number} value 
+   * @param {Number} decimals 小数点后的个数，默认2
+   */
+  asDecimal: function asDecimal(value) {
+    var decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
+    var thousand = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ',';
+
+    return _accounting2.default.formatNumber(value, decimals, thousand);
+  },
+  asPercent: function asPercent(value) {
+    var decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+    value *= 100;
+    return value.toFixed(decimals) + '%';
+  }
 };
 
 /***/ }),
