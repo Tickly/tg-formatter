@@ -2,18 +2,21 @@ import moment from 'moment'
 import accounting from 'accounting'
 
 export default {
-  // 重点函数，别的地方只需调用这一个函数即可
-  // formatter.format(value,format)
-  // 此处format为引用传递，不能直接修改他
+  /**
+   * 重点函数，别的地方只需调用这一个函数即可
+   * formatter.format(value,format)
+   * 此处format为引用传递，不能直接修改他
+   * @param {*} value 要格式化的值
+   * @param {*} format 格式
+   */
   format (value, format = 'text') {
-
     let fn, params;
 
     if (Array.isArray(format)) {
       if (format.length === 0) {
         throw new Error('format 数组必须包含一个元素')
       }
-      // console.log(JSON.stringify(format));
+
       params = format.slice();
       fn = params[0];
       params[0] = value;
@@ -37,7 +40,15 @@ export default {
   },
 
   asText (value) {
-    return value
+    if (value === null || value === undefined)
+      return ''
+
+    // 数组或者对象类型返回json格式字符串
+    if (Array.isArray(value) || typeof value === typeof {})
+      return JSON.stringify(value)
+
+    // 其余类型 string,number,boolean 都调用toString方法返回
+    return value.toString()
   },
 
   asDate (value, format = 'Y-MM-DD') {

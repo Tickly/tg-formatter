@@ -75,6 +75,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _moment = __webpack_require__(1);
 
 var _moment2 = _interopRequireDefault(_moment);
@@ -86,12 +88,15 @@ var _accounting2 = _interopRequireDefault(_accounting);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  // 重点函数，别的地方只需调用这一个函数即可
-  // formatter.format(value,format)
-  // 此处format为引用传递，不能直接修改他
+  /**
+   * 重点函数，别的地方只需调用这一个函数即可
+   * formatter.format(value,format)
+   * 此处format为引用传递，不能直接修改他
+   * @param {*} value 要格式化的值
+   * @param {*} format 格式
+   */
   format: function format(value) {
     var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text';
-
 
     var fn = void 0,
         params = void 0;
@@ -100,7 +105,7 @@ exports.default = {
       if (format.length === 0) {
         throw new Error('format 数组必须包含一个元素');
       }
-      // console.log(JSON.stringify(format));
+
       params = format.slice();
       fn = params[0];
       params[0] = value;
@@ -123,7 +128,13 @@ exports.default = {
     return this[fn].apply(null, params);
   },
   asText: function asText(value) {
-    return value;
+    if (value === null || value === undefined) return '';
+
+    // 数组或者对象类型返回json格式字符串
+    if (Array.isArray(value) || (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === _typeof({})) return JSON.stringify(value);
+
+    // 其余类型 string,number,boolean 都调用toString方法返回
+    return value.toString();
   },
   asDate: function asDate(value) {
     var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Y-MM-DD';
