@@ -1,6 +1,6 @@
 {
-  "name": "tag-formatter",
-  "version": "1.0.6",
+  "name": "tg-formatter",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
